@@ -1,5 +1,4 @@
 'use client';
-import { Input } from '@/components/ui/input';
 import {
   Select,
   SelectContent,
@@ -12,24 +11,44 @@ import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
+
+
+const SignupSchema = Yup.object().shape({
+  name: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required('Required'),
+  phone: Yup.string()
+    .matches(/^[0-9]+$/, 'Must be only digits')
+    .min(10, 'Must be exactly 10 digits')
+    .max(10, 'Must be exactly 10 digits')
+    .required('Required'),
+  gender: Yup.string().required('Required'),
+  dateOfBirth: Yup.date().required('Required'),
+  introduction: Yup.string().max(200, 'Too Long!'),
+  email: Yup.string().email('Invalid email').required('Required'),
+  password: Yup.string().min(8, 'Password must be at least 8 characters').required('Required'),
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref('password'), null], 'Passwords must match')
+    .required('Required'),
+});
+
 
 const Register = () => {
-  const SignupSchema = Yup.object().shape({
-    name: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required('Required'),
-    phone: Yup.string()
-      .matches(/^[0-9]+$/, 'Must be only digits')
-      .min(10, 'Must be exactly 10 digits')
-      .max(10, 'Must be exactly 10 digits')
-      .required('Required'),
-    gender: Yup.string().required('Required'),
-    dateOfBirth: Yup.date().required('Required'),
-    introduction: Yup.string().max(200, 'Too Long!'),
-    email: Yup.string().email('Invalid email').required('Required'),
-    password: Yup.string().min(8, 'Password must be at least 8 characters').required('Required'),
-    confirmPassword: Yup.string()
-      .oneOf([Yup.ref('password'), null], 'Passwords must match')
-      .required('Required'),
-  });
+  const router = useRouter();
+  
+  const handleSubmit = async (values) => {
+    try {
+      const response = await axios.post(`http://localhost:3000/user/register`, values);
+      if (response.status === 200) {
+        console.log('User registered successfully');
+        toast.success(response.data.message);
+        router.push('/login');
+      }
+    } catch (error) {
+      console.error('Registration error:', error);
+      toast.error(error.response.data.message);
+    }
+  }
 
   return (
     <div className="flex h-screen items-center justify-center bg-white">
@@ -50,9 +69,7 @@ const Register = () => {
             confirmPassword: '',
           }}
           validationSchema={SignupSchema}
-          onSubmit={(values) => {
-            axios.post(`http://localhost:3000/register`, values)
-          }}
+          onSubmit={handleSubmit}
         >
 
           {({ errors, touched, setFieldValue }) => (
@@ -62,7 +79,7 @@ const Register = () => {
                 <div className="flex flex-col">
                   <Field
                     name="name"
-                    className="p-4 border-2 rounded-full w-60"
+                    className="p-4 border-2 rounded-full w-60 h-8"
                     placeholder="Name"
                   />
                   <ErrorMessage name="name" component="div" className="text-red-500" />
@@ -71,7 +88,7 @@ const Register = () => {
                 <div className="flex flex-col">
                   <Field
                     name="phone"
-                    className="p-4 border-2 rounded-full w-60"
+                    className="p-4 border-2 rounded-full w-60 h-8"
                     placeholder="Phone"
                   />
                   <ErrorMessage name="phone" component="div" className="text-red-500" />
@@ -103,7 +120,7 @@ const Register = () => {
                   <Field
                     name="dateOfBirth"
                     type="date"
-                    className="p-4 border-2 rounded-full w-60"
+                    className="p-4 border-2 rounded-full w-60 h-8"
                     placeholder="Date of Birth"
                   />
                   <ErrorMessage name="dateOfBirth" component="div" className="text-red-500" />
@@ -126,7 +143,7 @@ const Register = () => {
                   <Field
                     name="email"
                     type="email"
-                    className="col-span-2 p-4 border-2 rounded-full"
+                    className="col-span-2 p-4 border-2 rounded-full h-8"
                     placeholder="Email"
                   />
                   <ErrorMessage name="email" component="div" className="text-red-500" />
@@ -136,7 +153,7 @@ const Register = () => {
                   <Field
                     name="password"
                     type="password"
-                    className="col-span-2 p-4 border-2 rounded-full"
+                    className="col-span-2 p-4 border-2 rounded-full h-8"
                     placeholder="Password"
                   />
                   <ErrorMessage name="password" component="div" className="text-red-500" />
@@ -146,7 +163,7 @@ const Register = () => {
                   <Field
                     name="confirmPassword"
                     type="password"
-                    className="col-span-2 p-4 border-2 rounded-full"
+                    className="col-span-2 p-4 border-2 rounded-full h-8"
                     placeholder="Confirm Password"
                   />
                   <ErrorMessage name="confirmPassword" component="div" className="text-red-500" />
