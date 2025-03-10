@@ -1,5 +1,4 @@
 'use client';
-import { Input } from '@/components/ui/input';
 import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
@@ -21,8 +20,9 @@ const Login = () => {
     setLoading(true);
     console.log(values);
     try{
-      const response = await axios.post('http://localhost:9000/user/login', values)
-      if (response.status === 200) {
+      // const response = await axios.post('http://localhost:9000/user/login', values)
+      const response = await axios.post('/api/auth/login', values)
+      if (response.status === 201) {
         console.log('User logged in successfully');
         toast.success(response.data.message);
         router.push('/');

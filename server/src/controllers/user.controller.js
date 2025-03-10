@@ -6,7 +6,7 @@ const getUser = async (req, res) => {
     res.send('Hello World!')
 }
 
-const createUser = async (req, res) => {
+const Register = async (req, res) => {
     try {
         const emailTaken = await User.findOne({ email: req.body.email })
         if (emailTaken) return res.status(409).json({ message: 'Email already taken' })
@@ -43,4 +43,4 @@ const Login = async (req, res) => {
     }
 }
 
-export { getUser, createUser, Login }
+export { getUser, Register, Login }

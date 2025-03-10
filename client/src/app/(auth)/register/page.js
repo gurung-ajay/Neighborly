@@ -40,8 +40,9 @@ const Register = () => {
   const handleSubmit = async (values) => {
     setLoading(true);
     try {
-      const response = await axios.post(`http://localhost:9000/user/register`, values);
-      if (response.status === 200) {
+      // const response = await axios.post(`http://localhost:9000/user/register`, values);
+      const response = await axios.post('/api/auth/register', values);
+      if (response.status === 201) {
         console.log('User registered successfully');
         toast.success(response.data.message);
         router.push('/login');
