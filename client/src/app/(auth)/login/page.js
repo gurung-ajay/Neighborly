@@ -21,7 +21,7 @@ const Login = () => {
     setLoading(true);
     console.log(values);
     try{
-      const response = await axios.post('http://localhost:3000/user/login', values)
+      const response = await axios.post('http://localhost:9000/user/login', values)
       if (response.status === 200) {
         console.log('User logged in successfully');
         toast.success(response.data.message);
