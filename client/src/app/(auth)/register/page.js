@@ -35,8 +35,10 @@ const SignupSchema = Yup.object().shape({
 
 const Register = () => {
   const router = useRouter();
+  const [Loading, setLoading] = React.useState(false);
   
   const handleSubmit = async (values) => {
+    setLoading(true);
     try {
       const response = await axios.post(`http://localhost:3000/user/register`, values);
       if (response.status === 200) {
@@ -47,13 +49,15 @@ const Register = () => {
     } catch (error) {
       console.error('Registration error:', error);
       toast.error(error.response.data.message);
+    } finally {
+      setLoading(false);
     }
   }
 
   return (
     <div className="flex h-screen items-center justify-center bg-white">
       <div className="flex flex-col items-center justify-center shadow-2xl p-10 w-1/2">
-        <div className="text-black text-4xl justify-center items-center flex m-4">
+        <div className="text-black text-4xl justify-center items-center flex m-4 font-bold">
           Register
         </div>
 
@@ -173,9 +177,9 @@ const Register = () => {
 
               <button
                 type="submit"
-                className="border p-4 rounded-full m-4 bg-gray-400 w-40"
+                className={`border p-4 rounded-full cursor-pointer m-4 bg-black text-white w-40 ${Loading ? 'opacity-50 cursor-not-allowed' : ''}`}
               >
-                Submit
+                {Loading ? 'Loading...' : 'Submit'}
               </button>
             </Form>
           )}
