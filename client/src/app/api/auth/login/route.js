@@ -17,9 +17,9 @@ export async function POST(request) {
     }
 
     const data = await response.json();
-    return NextResponse.json(data, { status: 201 });
+    return NextResponse.json(data, { status: 200 });
   } catch (error) {
-    console.error('Registration error:', error);
+    console.error('Login error:', error);
     return NextResponse.json({ message: 'Internal server error' }, { status: 500 });
   }
 }
