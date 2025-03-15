@@ -22,7 +22,7 @@ const LoginForm = () => {
       if (response.status === 200) {
         console.log('User logged in successfully');
         toast.success(response.data.message);
-        router.push('/');
+        router.push('/home');
       }
     } catch (error) {
       console.error('Login error:', error.response.data.message);

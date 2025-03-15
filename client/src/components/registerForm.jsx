@@ -125,7 +125,7 @@ const RegisterForm = () => {
                   <Field
                     name="introduction"
                     as={Textarea}
-                    className="col-span-2 p-4 border-2 rounded-2xl h-20 resize-none"
+                    className="col-span-2 w-[500px] p-4 border-2 rounded-2xl h-20 resize-none"
                     placeholder="Introduce yourself to the community"
                     rows={4}
                   />
