@@ -14,7 +14,7 @@ app.use(express.urlencoded({ extended: true }))
 
 app.use(cors()) // configured cors for frontend and backend connection without port number issue
 
-app.use('/user', UserRoute)
+app.use('/', UserRoute)
 
 app.listen(PORT, () => {
   dbConnect();

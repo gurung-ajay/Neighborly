@@ -1,0 +1,5 @@
+For map:
+add a field for entering user address location OR use geolocation to access current lng and ltd
+add field in user model for address location
+in controller, search only users within 400m radius proximity and return them
+on map page, get the data from the controller and display them on the map

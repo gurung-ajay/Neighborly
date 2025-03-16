@@ -31,6 +31,7 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  // TODO: Add field for user address location
 });
 
 const User = mongoose.models.User || mongoose.model('User', UserSchema); // Check if model already exists

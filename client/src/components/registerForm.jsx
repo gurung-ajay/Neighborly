@@ -30,7 +30,7 @@ const SignupSchema = Yup.object().shape({
       .required('Required'),
   });
 
-
+// TODO: Add field for user address location
 const RegisterForm = () => {
     const router = useRouter();
     const [Loading, setLoading] = React.useState(false);
