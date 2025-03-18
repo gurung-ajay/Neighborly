@@ -7,14 +7,10 @@ const markers = [
   {
     geocode: [51.505, -0.09],
     popUp: "Marker 1",
-  },
-  {
-    geocode: [51.504, -0.08],
-    popUp: "Marker 2",
-  },
+  }
 ];
 
-const Map = () => {
+const MapForm = () => {
   const customIcon = new window.L.Icon({
     iconUrl: "/marker.png",
     iconSize: [50, 50],
@@ -29,7 +25,7 @@ const Map = () => {
         center={[51.505, -0.09]}
         zoom={13}
         scrollWheelZoom={true}
-        className="h-[100vh] w-screen"
+        className="h-[400] w-[600]"
         dragging={true}
         zoomControl={true}
       >
@@ -39,7 +35,6 @@ const Map = () => {
         />
         {markers.map((marker, index) => (
           <Marker key={index} position={marker.geocode} icon={customIcon}>
-            <Popup>{marker.popUp}</Popup>
           </Marker>
         ))}
       </MapContainer>
@@ -47,4 +42,4 @@ const Map = () => {
   );
 };
 
-export default Map;
+export default MapForm;
