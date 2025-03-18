@@ -27,7 +27,7 @@ const Map = () => {
     <div>
       <MapContainer
         center={[51.505, -0.09]}
-        zoom={13}
+        zoom={15}
         scrollWheelZoom={true}
         className="h-[100vh] w-screen"
         dragging={true}

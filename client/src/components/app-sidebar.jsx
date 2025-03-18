@@ -79,7 +79,7 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter className="p-4 text-xs text-center text-muted-foreground">© 2025 Your Company</SidebarFooter>
+      <SidebarFooter className="p-4 text-xs text-center text-muted-foreground"></SidebarFooter>
       <SidebarRail />
     </Sidebar>
   )
