@@ -1,9 +1,10 @@
 import Router from 'express'
-import { getUser, createUser } from '../controllers/user.controller.js'
+import { Login, Register, getRequestLocations } from '../controllers/user.controller.js'
 
 const routes = Router()
 
-routes.get('/', getUser)
-routes.post('/', createUser)
+routes.get('/request_locations', getRequestLocations)
+routes.post('/register', Register)
+routes.post('/login', Login)
 
 export default routes
