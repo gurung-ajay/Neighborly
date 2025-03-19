@@ -43,6 +43,9 @@ const MapForm = () => {
     });
     return null;
   };
+  useEffect(() => {
+    console.log(markerPosition);
+  }, [markerPosition]);
 
   const customIcon = new window.L.Icon({
     iconUrl: "/marker.png",
@@ -57,7 +60,7 @@ const MapForm = () => {
         center={mapCentre}
         zoom={16}
         scrollWheelZoom={true}
-        className="h-[400] w-[600]"
+        className="h-[300] w-[600]"
         dragging={true}
         zoomControl={true}
       >
@@ -66,7 +69,10 @@ const MapForm = () => {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         />
         {/* Custom component to re-center the map */}
-        <ChangeView center={mapCentre} />
+              {/*to prevent from recentering map each time user places a marker*/}
+        {!markerPosition && (      
+          <ChangeView center={mapCentre} />
+        )}
         <MapEvents />
         {markerPosition && (
           <Marker position={markerPosition} icon={customIcon}/>

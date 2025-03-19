@@ -19,8 +19,9 @@ const RegisterLocationPage = () => {
         <div className="text-black text-4xl justify-center items-center flex m-4 font-bold">
           Register Home Location
         </div>
-        <p className="">Please find your home in the map below and set the marker.</p><p>For better user experience, please be as precise as possible.</p>
-        <div className="w-[610] h-[410] border-8 flex items-center justify-center m-2">
+        <p className="">Please find your home in the map below and click to set the marker.</p><p>Then press submit button.</p>
+        <p className="text-sm text-gray-500">For better user experience, please be as precise as possible.</p>
+        <div className="w-[610] h-[310] border-8 flex items-center justify-center m-2">
           <MapForm />
         </div>
         <button className="border p-4 rounded-full cursor-pointer m-2 bg-black text-white w-40">
