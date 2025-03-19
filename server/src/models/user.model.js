@@ -4,15 +4,17 @@ const UserSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
+    trim: true,
   },
   phone: {
     type: String,
     required: true,
+    trim: true,
   },
   gender: {
     type: String,
     required: true,
-    enum: ['male', 'female', 'other'], // Assuming these are the only gender options
+    enum: ['male', 'female', 'other'],
   },
   dateOfBirth: {
     type: Date,
@@ -22,14 +24,23 @@ const UserSchema = new mongoose.Schema({
     type: String,
     maxlength: 200,
   },
+  profilePicture: {
+    type: String,
+    trim: true,
+  },
   email: {
     type: String,
     required: true,
-    unique: true, // Ensures email uniqueness
+    unique: true, 
+    trim: true,
   },
   password: {
     type: String,
     required: true,
+  },
+  home_address: {
+    lat: { type: Number, required: true },
+    lng: { type: Number, required: true }
   },
 });
 

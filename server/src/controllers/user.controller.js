@@ -2,10 +2,6 @@ import User from "../models/user.model.js"
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 
-const getUser = async (req, res) => {
-    res.send('Hello World!')
-}
-
 const Register = async (req, res) => {
     try {
         const emailTaken = await User.findOne({ email: req.body.email })
@@ -43,4 +39,13 @@ const Login = async (req, res) => {
     }
 }
 
-export { getUser, Register, Login }
+const getRequestLocations = async (req, res) => {
+    try {
+        const users = await User.find({}) // TODO: find only those users who live across 400m radius
+        res.status(200).json({ data: users })
+    } catch (error) {
+        res.status(500).json({ message: 'Failed to fetch locations' })
+    }
+}
+
+export { getRequestLocations, Register, Login }
