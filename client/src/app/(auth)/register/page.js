@@ -1,6 +1,6 @@
-'use client';
-import RegisterForm from '@/components/registerForm';
-import React from 'react';
+"use client";
+import RegisterForm from "@/components/registerForm";
+import React from "react";
 
 const Register = () => {
   return (

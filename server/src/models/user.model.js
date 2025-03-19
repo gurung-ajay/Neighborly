@@ -14,7 +14,7 @@ const UserSchema = new mongoose.Schema({
   gender: {
     type: String,
     required: true,
-    enum: ['male', 'female', 'other'], // Assuming these are the only gender options
+    enum: ['male', 'female', 'other'],
   },
   dateOfBirth: {
     type: Date,
@@ -23,6 +23,10 @@ const UserSchema = new mongoose.Schema({
   introduction: {
     type: String,
     maxlength: 200,
+  },
+  profilePicture: {
+    type: String,
+    trim: true,
   },
   email: {
     type: String,
@@ -34,7 +38,6 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  // TODO: Add field for user address location
   home_address: {
     lat: { type: Number, required: true },
     lng: { type: Number, required: true }

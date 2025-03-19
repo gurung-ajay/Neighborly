@@ -2,8 +2,18 @@
 import React from "react";
 import dynamic from "next/dynamic";
 import { useMemo } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import axios from "axios";
+import { resetFormData } from "@/app/redux/registerUserSlice";
 
 const RegisterLocationPage = () => {
+  const [Loading, setLoading] = React.useState(false);
+  const registerData = useSelector((state) => state.registerUser);
+  const router = useRouter();
+  const dispatch = useDispatch();
+
   const MapForm = useMemo(
     () =>
       dynamic(() => import("@/components/map-form"), {
@@ -12,6 +22,27 @@ const RegisterLocationPage = () => {
       }),
     []
   );
+  
+  const handleSubmit = async () => {
+    if (registerData.home_address.lat !== 0 && registerData.home_address.lng !== 0) {
+      setLoading(true);
+      try {
+      const response = await axios.post('/api/auth/register', registerData);
+      if (response.status === 201 || response.status === 200) {
+          console.log('User registered successfully');
+          toast.success(response.data.message);
+          router.push('/login');
+      }
+      } catch (error) {
+        console.error('Registration error:', error);
+        toast.error(error.response.data.message);
+      } finally {
+        dispatch(resetFormData());
+        setLoading(false);
+      }
+    }
+
+}
 
   return (
     <div className="flex h-screen items-center justify-center bg-white">
@@ -24,8 +55,12 @@ const RegisterLocationPage = () => {
         <div className="w-[610] h-[310] border-8 flex items-center justify-center m-2">
           <MapForm />
         </div>
-        <button className="border p-4 rounded-full cursor-pointer m-2 bg-black text-white w-40">
-          Submit
+        <button
+          type="submit"
+          className={`border p-4 rounded-full cursor-pointer m-2 bg-black text-white w-40 ${Loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+          onClick={handleSubmit}
+        >
+          {Loading ? 'Loading...' : 'Submit'}
         </button>
       </div>
     </div>

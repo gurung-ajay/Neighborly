@@ -1,4 +1,5 @@
-import React from 'react'
+"use client"
+import React, { useEffect } from 'react'
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
@@ -12,6 +13,8 @@ import {
     SelectTrigger,
     SelectValue,
   } from '@/components/ui/select';
+import { useDispatch, useSelector } from 'react-redux';
+import { addFormData } from '@/app/redux/registerUserSlice';
 
 const SignupSchema = Yup.object().shape({
     name: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required('Required'),
@@ -30,27 +33,38 @@ const SignupSchema = Yup.object().shape({
       .required('Required'),
   });
 
-// TODO: Add field for user address location
+
 const RegisterForm = () => {
     const router = useRouter();
     const [Loading, setLoading] = React.useState(false);
+    const userRegisterData = useSelector((state) => state.registerUser);
+    const dispatch = useDispatch();
     
     const handleSubmit = async (values) => {
         setLoading(true);
-        try {
-        const response = await axios.post('/api/auth/register', values);
-        if (response.status === 201 || response.status === 200) {
-            console.log('User registered successfully');
-            toast.success(response.data.message);
-            router.push('/login');
-        }
-        } catch (error) {
-        console.error('Registration error:', error);
-        toast.error(error.response.data.message);
-        } finally {
+        // try {
+        // const response = await axios.post('/api/auth/register', values);
+        // if (response.status === 201 || response.status === 200) {
+        //     console.log('User registered successfully');
+        //     toast.success(response.data.message);
+        //     router.push('/login');
+        // }
+        // } catch (error) {
+        // console.error('Registration error:', error);
+        // toast.error(error.response.data.message);
+        // } finally {
+        // setLoading(false);
+        // }
+
+        console.log(values);
+        dispatch(addFormData(values));
+        router.push('/register_location')
         setLoading(false);
-        }
     }
+    useEffect(() => {
+        console.log(userRegisterData);
+    }, [userRegisterData]);
+    
     return (
         <Formik
           initialValues={{
@@ -170,7 +184,7 @@ const RegisterForm = () => {
                 type="submit"
                 className={`border p-4 rounded-full cursor-pointer m-4 bg-black text-white w-40 ${Loading ? 'opacity-50 cursor-not-allowed' : ''}`}
               >
-                {Loading ? 'Loading...' : 'Submit'}
+                {Loading ? 'Loading...' : 'Next >>'}
               </button>
             </Form>
           )}

@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { MapContainer, Marker, TileLayer, useMap, useMapEvents } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
+import { useDispatch } from "react-redux";
+import { addHomeAddress } from "@/app/redux/registerUserSlice";
 
 const MapForm = () => {
   const [mapCentre, setMapCentre] = useState([51.505, -0.09]);
   const [markerPosition, setMarkerPosition] = useState(null);
-
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -22,6 +24,13 @@ const MapForm = () => {
       console.error("Geolocation is not supported by this browser.");
     }
   }, []);
+
+  // set home_address field
+  useEffect(() => {
+    if (markerPosition) {
+      dispatch(addHomeAddress({ lat: markerPosition.lat, lng: markerPosition.lng }));
+    }
+  }, [markerPosition])
 
  
   // simply using state change to re-center the map by re-rendering the map is not working
