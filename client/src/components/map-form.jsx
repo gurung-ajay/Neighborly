@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { MapContainer, Marker, TileLayer, useMap, useMapEvents } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { useDispatch } from "react-redux";
-import { addHomeAddress } from "@/app/redux/registerUserSlice";
+import { addHomeAddress } from "@/app/redux/features/register/registerUserSlice";
 
 const MapForm = () => {
   const [mapCentre, setMapCentre] = useState([51.505, -0.09]);
@@ -25,7 +25,7 @@ const MapForm = () => {
     }
   }, []);
 
-  // set home_address field
+  // set home_address form field
   useEffect(() => {
     if (markerPosition) {
       dispatch(addHomeAddress({ lat: markerPosition.lat, lng: markerPosition.lng }));

@@ -2,6 +2,8 @@ import React from "react";
 import { MapContainer, Marker, Popup } from "react-leaflet";
 import { TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
+import RequestForm from "./requestForm";
+
 
 const markers = [
   {
@@ -15,6 +17,7 @@ const markers = [
 ];
 
 const Map = () => {
+
   const customIcon = new window.L.Icon({
     iconUrl: "/marker.png",
     iconSize: [50, 50],
@@ -33,6 +36,9 @@ const Map = () => {
         dragging={true}
         zoomControl={true}
       >
+        <RequestForm />
+        
+        
         <TileLayer
           url="https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -43,6 +49,8 @@ const Map = () => {
           </Marker>
         ))}
       </MapContainer>
+      
+
     </div>
   );
 };

@@ -2,9 +2,7 @@
 import React, { useEffect } from 'react'
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import { toast } from 'sonner';
 import { Textarea } from '@/components/ui/textarea';
 import {
     Select,
@@ -14,7 +12,7 @@ import {
     SelectValue,
   } from '@/components/ui/select';
 import { useDispatch, useSelector } from 'react-redux';
-import { addFormData } from '@/app/redux/registerUserSlice';
+import { addFormData } from '@/app/redux/features/register/registerUserSlice';
 
 const SignupSchema = Yup.object().shape({
     name: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required('Required'),
@@ -42,20 +40,6 @@ const RegisterForm = () => {
     
     const handleSubmit = async (values) => {
         setLoading(true);
-        // try {
-        // const response = await axios.post('/api/auth/register', values);
-        // if (response.status === 201 || response.status === 200) {
-        //     console.log('User registered successfully');
-        //     toast.success(response.data.message);
-        //     router.push('/login');
-        // }
-        // } catch (error) {
-        // console.error('Registration error:', error);
-        // toast.error(error.response.data.message);
-        // } finally {
-        // setLoading(false);
-        // }
-
         console.log(values);
         dispatch(addFormData(values));
         router.push('/register_location')
