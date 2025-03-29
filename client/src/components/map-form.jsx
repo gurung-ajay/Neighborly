@@ -36,10 +36,10 @@ const MapForm = () => {
   // simply using state change to re-center the map by re-rendering the map is not working
   // because map only renders once with the initial default state value and wont rerender so recenter wont happen
   // So using Custom component to re-center the map,
-  const ChangeView = ({ center }) => {
+  const ChangeView = ({ centre }) => {
     const map = useMap();
     useEffect(() => {
-      map.setView(center);
+      map.setView(centre);
     }, [center, map]);
     return null;
   };
@@ -57,7 +57,7 @@ const MapForm = () => {
   }, [markerPosition]);
 
   const customIcon = new window.L.Icon({
-    iconUrl: "/marker.png",
+    iconUrl: "/map/marker.png",
     iconSize: [32, 32],
     iconAnchor: [12, 12],
     popupAnchor: [0, -12],
@@ -80,7 +80,7 @@ const MapForm = () => {
         {/* Custom component to re-center the map */}
               {/*to prevent from recentering map each time user places a marker*/}
         {!markerPosition && (      
-          <ChangeView center={mapCentre} />
+          <ChangeView centre={mapCentre} />
         )}
         <MapEvents />
         {markerPosition && (

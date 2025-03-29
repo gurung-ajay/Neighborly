@@ -13,6 +13,7 @@ import {
   } from '@/components/ui/select';
 import { useDispatch, useSelector } from 'react-redux';
 import { addFormData } from '@/app/redux/features/register/registerUserSlice';
+import { Input } from './ui/input';
 
 const SignupSchema = Yup.object().shape({
     name: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required('Required'),
@@ -68,6 +69,10 @@ const RegisterForm = () => {
           {({ errors, touched, setFieldValue }) => (
             <Form className="flex justify-center items-center flex-col">
               <div className="grid grid-cols-2 gap-4">
+              <hr className="col-span-2 m-2" />
+              <div className="text-black text-lg font-bold col-span-2">
+                  Personal Information
+              </div>
                 
                 <div className="flex flex-col">
                   <Field
@@ -130,8 +135,27 @@ const RegisterForm = () => {
                   <ErrorMessage name="introduction" component="div" className="text-red-500" />
                 </div>
 
-                <hr className="col-span-2 w-full m-2" />
+                <hr className="col-span-2 m-2" />
+                <div className="text-black text-lg font-bold col-span-2">
+                  Profile picture
+              </div>
+                <div className="flex flex-col col-span-2 items-center">
+                  <Input
+                    type="file"
+                    name="profilePicture"
+                    className="col-span-2 border-2 rounded-full"
+                    placeholder="Profile Picture (optional)"
+                  />
+                </div>
+                
 
+
+
+                <hr className="col-span-2 m-2" />
+
+                <div className="text-black text-lg font-bold col-span-2">
+                  Authentication Information
+               </div>
                 <div className="flex flex-col col-span-2">
                   <Field
                     name="email"
@@ -166,7 +190,7 @@ const RegisterForm = () => {
 
               <button
                 type="submit"
-                className={`border p-4 rounded-full cursor-pointer m-4 bg-black text-white w-40 ${Loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                className={`border p-4 rounded-full cursor-pointer m-4 mt-10 bg-black text-white w-40 ${Loading ? 'opacity-50 cursor-not-allowed' : ''}`}
               >
                 {Loading ? 'Loading...' : 'Next >>'}
               </button>
