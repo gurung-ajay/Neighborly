@@ -40,7 +40,7 @@ const MapForm = () => {
     const map = useMap();
     useEffect(() => {
       map.setView(centre);
-    }, [center, map]);
+    }, [centre, map]);
     return null;
   };
 

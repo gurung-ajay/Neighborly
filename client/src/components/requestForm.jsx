@@ -12,11 +12,16 @@ import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { DialogFooter } from "@/components/ui/dialog";
 import { Textarea } from './ui/textarea';
+import axios from 'axios';
+import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
+import { useSelector } from 'react-redux';
 
 const RequestForm = () => {
     const [isDialogOpen, setIsDialogOpen] = useState(false)
     const [imagePath, setImagePath] = useState('')
     const [imagePreview, setImagePreview] = useState(null)
+    const user = useSelector((state) => state.user)
 
     // Cleanup when dialog closes
     useEffect(() => {
@@ -31,23 +36,22 @@ const RequestForm = () => {
           }
       }, [isDialogOpen])
     
-  const handleImageChange = (e) => {
-      const file = e.target.files[0]
-      if (file) {
-          // Create a preview URL
-          const preview = URL.createObjectURL(file)
-          setImagePreview(preview)
-          
-          // Store the image path (this will be the path where the image is stored on your server)
-          setImagePath(`/uploads/${file.name}`)
-      }
-  }
+    
 
   const handleSubmit = async (e) => {
-      e.preventDefault()
-      // Here you would send the imagePath to your MongoDB server
-      // The actual image file should be uploaded to your server's storage
-      console.log('Submitting image path:', imagePath)
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const values = Object.fromEntries(formData.entries());
+    console.log(values);
+    console.log(user.user.data._id)
+    values.postedBy = user.user.data._id
+    const response = await axios.post('http://localhost:9000/request', values)
+    if (response.status === 200) {
+      console.log('Request created successfully');
+      console.log(response.data);
+      toast.success(response.data.message);
+      setIsDialogOpen(false);
+    }
   }
 
   return (
@@ -76,38 +80,22 @@ const RequestForm = () => {
                 <Input id="username" value="@peduarte" className="col-span-3" />
               </div>
             </div> */}
-            <form className='flex flex-col gap-4'>
+            <form className='flex flex-col gap-4' onSubmit={(e) => handleSubmit(e)}>
               <Input 
                 type="text" 
                 placeholder="Enter your request title" 
                 className='p-4 border-2 rounded-2xl'
                 required
                 maxLength={50}
+                name="title"
               />
               <Textarea 
                 placeholder="Enter your request description" 
                 className="col-span-2 w-[380px] p-4 border-2 rounded-2xl h-20 resize-none"
                 required
                 maxLength={500}
+                name="description"
               />
-              <div className="flex flex-col gap-2">
-                <Label>Upload your image (optional)</Label>
-                <Input 
-                  type='file' 
-                  accept="image/*" 
-                  onChange={handleImageChange} 
-                  className="border-2 rounded-2xl"
-                />
-                {imagePreview && (
-                  <div className="mt-2">
-                    <img 
-                      src={imagePreview} 
-                      alt="Preview" 
-                      className="max-w-[200px] rounded-lg"
-                    />
-                  </div>
-                )}
-              </div>              
               <Label>Set request expiry date:</Label>
               <Input 
                 type="date" 
@@ -115,11 +103,10 @@ const RequestForm = () => {
                 placeholder="Enter your request date" 
                 className="p-4 border-2 rounded-2xl"
                 required
+                name="expiryDate"
               />
+              <Button type="submit" className="p-4 border-2 rounded-2xl">Create Request</Button>
             </form>
-            <DialogFooter>
-              <Button type="submit">Save changes</Button>
-            </DialogFooter>
           </DialogContent>
         </Dialog>
   )

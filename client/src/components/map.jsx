@@ -4,6 +4,7 @@ import { TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import RequestForm from "./requestForm";
 import { useSelector } from "react-redux";
+import axios from "axios";
 
 const markers = [
   {
@@ -21,6 +22,19 @@ const markers = [
 ];
 
 const Map = () => {
+  const [requests, setRequests] = useState([]);
+  useEffect(() => {
+    const request_db = async () => {
+      const response = await axios.get("/api/requests/request");
+      setRequests(response.data);
+    };
+    request_db();
+  }, []);
+  useEffect(() => {
+    console.log(requests.data)
+    console.log(typeof(requests.data))
+  }, [requests]);
+
   const { user } = useSelector((state) => state.user);
   const [mapCentre, setMapCentre] = useState(Object.values(user.data?.home_address));
 
@@ -41,7 +55,9 @@ const Map = () => {
   const MapRecenter = ({ center }) => {
     const map = useMap();
     useEffect(() => {
-      map.setView(center);
+       if (map) { // Check if map is available
+            map.setView(center);
+        }
     }, [center, map]);
     return null;
   };
@@ -80,6 +96,12 @@ const Map = () => {
           <Marker key={index} position={marker.geocode} icon={customIcon}>
             <Popup>{marker.popUp}</Popup>
           </Marker>
+        ))}
+        // loop through requests only after requests data has been received from backend
+        {requests.data && requests.data.map((request, index) => (
+            <Marker key={index} position={Object.values(request.location)} icon={customIcon}>
+                <Popup>{request._doc.title}</Popup>
+            </Marker>
         ))}
         <MapRecenter center={mapCentre} />
       </MapContainer>

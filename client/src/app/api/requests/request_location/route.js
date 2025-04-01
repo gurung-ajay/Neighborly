@@ -1,14 +1,12 @@
 import { NextResponse } from 'next/server';
 
-export async function POST(request) {
+export async function GET(request) {
   try {
-    const body = await request.json();
-    const response = await fetch('http://localhost:9000/user/login', {
-      method: 'POST',
+    const response = await fetch(`http://localhost:9000/request/request_location/${request.body.postedBy}`, {
+      method: 'GET',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(body),
     });
 
     if (!response.ok) {
@@ -19,7 +17,7 @@ export async function POST(request) {
     const data = await response.json();
     return NextResponse.json(data, { status: 200 });
   } catch (error) {
-    console.error('Login error:', error);
+    console.error('Error fetching request location:', error);
     return NextResponse.json({ message: 'Internal server error' }, { status: 500 });
   }
 }

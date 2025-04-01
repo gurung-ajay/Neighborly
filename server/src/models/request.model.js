@@ -1,3 +1,5 @@
+import mongoose from "mongoose";
+
 const RequestSchema = new mongoose.Schema({
   title: {
     type: String,
@@ -30,6 +32,10 @@ const RequestSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+}, {
+  timestamps: true
 });
 
 const Request = mongoose.model('Request', RequestSchema);
+
+export default Request
