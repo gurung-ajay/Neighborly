@@ -4,6 +4,8 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
+import { useDispatch } from 'react-redux';
+import { login } from '@/app/redux/features/user/userSlice';
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email').required('Required'),
@@ -11,6 +13,7 @@ const LoginSchema = Yup.object().shape({
 });
 
 const LoginForm = () => {
+  const dispatch = useDispatch();
   const router = useRouter();
   const [Loading, setLoading] = React.useState(false);
 
@@ -21,12 +24,14 @@ const LoginForm = () => {
       const response = await axios.post('/api/auth/login', values)
       if (response.status === 200) {
         console.log('User logged in successfully');
+        console.log(response.data);
+        dispatch(login(response.data));
         toast.success(response.data.message);
         router.push('/map');
       }
     } catch (error) {
       console.error('Login error:', error.response.data.message);
-      toast.error(error.response.data.message);
+      toast.error(error.response?.data?.message);
     } finally {
       setLoading(false);
     }

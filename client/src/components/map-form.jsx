@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { MapContainer, Marker, TileLayer, useMap, useMapEvents } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { useDispatch } from "react-redux";
-import { addHomeAddress } from "@/app/redux/registerUserSlice";
+import { addHomeAddress } from "@/app/redux/features/register/registerUserSlice";
 
 const MapForm = () => {
   const [mapCentre, setMapCentre] = useState([51.505, -0.09]);
@@ -25,7 +25,7 @@ const MapForm = () => {
     }
   }, []);
 
-  // set home_address field
+  // set home_address form field
   useEffect(() => {
     if (markerPosition) {
       dispatch(addHomeAddress({ lat: markerPosition.lat, lng: markerPosition.lng }));
@@ -36,11 +36,11 @@ const MapForm = () => {
   // simply using state change to re-center the map by re-rendering the map is not working
   // because map only renders once with the initial default state value and wont rerender so recenter wont happen
   // So using Custom component to re-center the map,
-  const ChangeView = ({ center }) => {
+  const ChangeView = ({ centre }) => {
     const map = useMap();
     useEffect(() => {
-      map.setView(center);
-    }, [center, map]);
+      map.setView(centre);
+    }, [centre, map]);
     return null;
   };
 
@@ -57,7 +57,7 @@ const MapForm = () => {
   }, [markerPosition]);
 
   const customIcon = new window.L.Icon({
-    iconUrl: "/marker.png",
+    iconUrl: "/map/marker.png",
     iconSize: [32, 32],
     iconAnchor: [12, 12],
     popupAnchor: [0, -12],
@@ -80,7 +80,7 @@ const MapForm = () => {
         {/* Custom component to re-center the map */}
               {/*to prevent from recentering map each time user places a marker*/}
         {!markerPosition && (      
-          <ChangeView center={mapCentre} />
+          <ChangeView centre={mapCentre} />
         )}
         <MapEvents />
         {markerPosition && (

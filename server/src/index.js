@@ -1,5 +1,6 @@
 import express from 'express'
 import UserRoute from './routes/user.route.js'
+import RequestRoute from './routes/request.route.js'
 import dbConnect from './db/connection.js'
 import cors from 'cors'
 import dotenv from 'dotenv'
@@ -14,7 +15,8 @@ app.use(express.urlencoded({ extended: true }))
 
 app.use(cors()) // configured cors for frontend and backend connection without port number issue
 
-app.use('/', UserRoute)
+app.use('/user', UserRoute)
+app.use('/request', RequestRoute)
 
 app.listen(PORT, () => {
   dbConnect();

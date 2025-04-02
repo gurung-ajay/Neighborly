@@ -4,8 +4,8 @@ import React from "react";
 
 const Register = () => {
   return (
-    <div className="flex h-screen items-center justify-center bg-white">
-      <div className="flex flex-col items-center justify-center shadow-2xl p-10 w-1/2">
+    <div className="flex h-full items-center justify-center bg-white">
+      <div className="flex flex-col items-center justify-center shadow-2xl p-10 w-1/2 mt-[50px] mb-[50px]">
         <div className="text-black text-4xl justify-center items-center flex m-4 font-bold">
           Register
         </div>
