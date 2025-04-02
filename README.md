@@ -42,15 +42,36 @@ Neighborly aims to foster stronger community bonds by providing a platform where
 ## 🛠️ Getting Started
 
 ### Prerequisites
-- Node.js (v14 or higher)
+- Node.js (v18 or higher)
 - MongoDB
 - npm or yarn
+
+### Environment Setup
+
+1. Create a `.env` file in both client and server directories:
+
+   **Client (.env):**
+   ```
+   NEXT_PUBLIC_API_URL=http://localhost:9000
+   ```
+
+   **Server (.env):**
+   ```
+   PORT=9000
+   MONGODB_URI=your_mongodb_connection_string
+   JWT_SECRET=your_secret_key
+   ```
+
+   **Important:**
+   - Add `.env` to your `.gitignore` file
+   - Create a `.env.example` file in both directories to show required environment variables without actual values
+   - In Next.js, only variables prefixed with `NEXT_PUBLIC_` are accessible on the client side
 
 ### Installation
 
 1. Clone the repository
 ```bash
-git clone [repository-url]
+git clone https://github.com/gurung-ajay/Neighborly.git
 ```
 
 2. Install server dependencies
