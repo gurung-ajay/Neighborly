@@ -17,7 +17,7 @@ import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
 
-const RequestForm = () => {
+const RequestForm = ({ refetchRequests }) => {
     const [isDialogOpen, setIsDialogOpen] = useState(false)
     const [imagePath, setImagePath] = useState('')
     const [imagePreview, setImagePreview] = useState(null)
@@ -51,6 +51,7 @@ const RequestForm = () => {
       console.log(response.data);
       toast.success(response.data.message);
       setIsDialogOpen(false);
+      refetchRequests();
     }
   }
 

@@ -23,13 +23,16 @@ const markers = [
 
 const Map = () => {
   const [requests, setRequests] = useState([]);
+
+  const fetchRequests = async () => {
+    const response = await axios.get("/api/requests/request");
+    setRequests(response.data);
+  };
+
   useEffect(() => {
-    const request_db = async () => {
-      const response = await axios.get("/api/requests/request");
-      setRequests(response.data);
-    };
-    request_db();
+    fetchRequests();
   }, []);
+
   useEffect(() => {
     console.log(requests.data)
     console.log(typeof(requests.data))
@@ -76,7 +79,7 @@ const Map = () => {
         dragging={true}
         zoomControl={false}
       >
-        <RequestForm />
+        <RequestForm refetchRequests={fetchRequests} />
 
         <button
           className="z-999 relative top-[600px] left-[50px] text-white p-2 rounded-full bg-white border-2 border-gray-300 shadow-2xl"
@@ -90,7 +93,17 @@ const Map = () => {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         />
         <Marker position={Object.values(user.data?.home_address)} icon={homeIcon}>
-          <Popup>My home</Popup>
+          <Popup>
+            {requests.data && requests.data.filter(request => request._doc.postedBy === user.data._id).map((request, index) => (
+              <div key={index} className="flex flex-col items-center">
+                <h3 className="font-bold text-center">{request._doc.title}</h3>
+                <p className="text-center">{request._doc.description}</p>
+                <p className="text-center">Help needed by: {new Date(request._doc.expiryDate).toLocaleDateString('en-CA')}</p>
+                <button className="bg-red-300 text-white p-2 rounded-full">Delete</button>
+                <hr />
+              </div>
+            ))}
+          </Popup>
         </Marker>
         {markers.map((marker, index) => (
           <Marker key={index} position={marker.geocode} icon={customIcon}>
@@ -98,11 +111,23 @@ const Map = () => {
           </Marker>
         ))}
         // loop through requests only after requests data has been received from backend
-        {requests.data && requests.data.map((request, index) => (
+        {requests.data && 
+          requests.data.map((request, index) => (
+            request._doc.postedBy !== user.data._id &&
+            (
             <Marker key={index} position={Object.values(request.location)} icon={customIcon}>
-                <Popup>{request._doc.title}</Popup>
+              <Popup>
+                <div className="flex flex-col items-center">
+                  <h3 className="font-bold text-center">{request._doc.title}</h3>
+                  <p className="text-center">{request._doc.description}</p>
+                  <p className="text-center">Help needed by: {new Date(request._doc.expiryDate).toLocaleDateString('en-CA')}</p>
+                  <button className="bg-green-400 text-white p-2 rounded-full">Accept</button>
+                </div>
+              </Popup>
             </Marker>
-        ))}
+            )
+          ))
+        }
         <MapRecenter center={mapCentre} />
       </MapContainer>
     </div>
