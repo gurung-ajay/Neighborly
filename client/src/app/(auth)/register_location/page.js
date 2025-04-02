@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import { resetFormData } from "@/app/redux/registerUserSlice";
+import { resetFormData } from "@/app/redux/features/register/registerUserSlice";
 
 const RegisterLocationPage = () => {
   const [Loading, setLoading] = React.useState(false);

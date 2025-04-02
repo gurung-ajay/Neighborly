@@ -18,9 +18,17 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Separator } from "@/components/ui/separator"
 import { usePathname } from "next/navigation"
+import { LogOut } from "lucide-react"
+import { useDispatch } from "react-redux"
+import { logout } from "@/app/redux/features/user/userSlice"
 
 export function AppSidebar() {
   const pathname = usePathname()
+  const dispatch = useDispatch()
+
+  const handleLogout = () => {
+    dispatch(logout())
+  }
 
   return (
     <Sidebar collapsible="icon">
@@ -72,6 +80,14 @@ export function AppSidebar() {
                   <a href="/settings">
                     <Settings />
                     <span>Settings</span>
+                  </a>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild tooltip="Logout" onClick={() => handleLogout()}>
+                  <a href="/">
+                    <LogOut />
+                    <span>Logout</span>
                   </a>
                 </SidebarMenuButton>
               </SidebarMenuItem>
