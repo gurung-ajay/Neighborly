@@ -58,7 +58,7 @@ const RequestForm = ({ refetchRequests }) => {
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen} >
           <DialogTrigger asChild>
-          <Button className={"z-999 absolute top-[90%] left-[45%]"} onClick={() => setIsDialogOpen(true)}>Create a request</Button>
+          <Button className={"z-999 absolute top-[90%] left-[45%] bg-blue-300 text-white"} onClick={() => setIsDialogOpen(true)}>Create a request</Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-[425px] z-999 absolute">
             <DialogHeader>

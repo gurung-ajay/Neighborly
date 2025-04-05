@@ -1,8 +1,9 @@
+import axios from 'axios';
 import { NextResponse } from 'next/server';
 
 export async function GET(request) {
   try {
-    const response = await fetch('http://localhost:9000/request', {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/request`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -25,7 +26,7 @@ export async function GET(request) {
 export async function POST(request) {
   try {
     const body = await request.json();
-    const response = await fetch('http://localhost:9000/request', {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/request`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

@@ -21,10 +21,14 @@ import { usePathname } from "next/navigation"
 import { LogOut } from "lucide-react"
 import { useDispatch } from "react-redux"
 import { logout } from "@/app/redux/features/user/userSlice"
+import { useSelector } from "react-redux"
+import { useEffect } from "react"
+import { Edit } from "lucide-react"
 
 export function AppSidebar() {
   const pathname = usePathname()
   const dispatch = useDispatch()
+  const { user } = useSelector((state) => state.user)
 
   const handleLogout = () => {
     dispatch(logout())
@@ -42,8 +46,8 @@ export function AppSidebar() {
             <User className="h-8 w-8 group-data-[collapsible=icon]:h-4 group-data-[collapsible=icon]:w-4" />
           </AvatarFallback>
         </Avatar>
-        <h3 className="mt-2 font-medium group-data-[collapsible=icon]:hidden">John Doe</h3>
-        <p className="text-xs text-muted-foreground group-data-[collapsible=icon]:hidden">john.doe@example.com</p>
+        <h3 className="mt-2 font-medium group-data-[collapsible=icon]:hidden">{user && user.data?.name}</h3>
+        <p className="text-xs text-muted-foreground group-data-[collapsible=icon]:hidden">{user && user.data?.email}</p>
       </SidebarHeader>
       <Separator className="mx-2" />
       <SidebarContent>
@@ -76,10 +80,10 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild tooltip="Settings">
-                  <a href="/settings">
-                    <Settings />
-                    <span>Settings</span>
+                <SidebarMenuButton asChild tooltip="Edit Profile">
+                  <a href="/edit_profile">
+                    <Edit />
+                    <span>Edit Profile</span>
                   </a>
                 </SidebarMenuButton>
               </SidebarMenuItem>

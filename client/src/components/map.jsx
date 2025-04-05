@@ -5,6 +5,8 @@ import "leaflet/dist/leaflet.css";
 import RequestForm from "./requestForm";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const markers = [
   {
@@ -23,6 +25,23 @@ const markers = [
 
 const Map = () => {
   const [requests, setRequests] = useState([]);
+  const router = useRouter();
+
+  const handleDeleteRequest = async (id) => {
+    try {
+      console.log(id)
+      const response = await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/request/delete/${id}`);
+
+      if (response.status === 200) {
+        console.log('Request deleted successfully');
+        toast.success('Request deleted successfully');
+        fetchRequests();
+      }
+    } catch (error) {
+      console.error('Error deleting request:', error);
+      toast.error('Failed to delete request');
+    }
+  };
 
   const fetchRequests = async () => {
     const response = await axios.get("/api/requests/request");
@@ -33,10 +52,6 @@ const Map = () => {
     fetchRequests();
   }, []);
 
-  useEffect(() => {
-    console.log(requests.data)
-    console.log(typeof(requests.data))
-  }, [requests]);
 
   const { user } = useSelector((state) => state.user);
   const [mapCentre, setMapCentre] = useState(Object.values(user.data?.home_address));
@@ -99,8 +114,8 @@ const Map = () => {
                 <h3 className="font-bold text-center">{request._doc.title}</h3>
                 <p className="text-center">{request._doc.description}</p>
                 <p className="text-center">Help needed by: {new Date(request._doc.expiryDate).toLocaleDateString('en-CA')}</p>
-                <button className="bg-red-300 text-white p-2 rounded-full">Delete</button>
-                <hr />
+                <button className="bg-red-300 text-white p-2 rounded-full" onClick={() => handleDeleteRequest(request._doc._id)}>Delete</button>
+                <hr className="w-3/4 border-t border-gray-300 mt-2 mb-2" />
               </div>
             ))}
           </Popup>

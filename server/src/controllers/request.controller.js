@@ -37,4 +37,14 @@ const getRequestLocations = async (req, res) => {
     }
 }
 
-export { getRequests, postRequest, getRequestLocations }
+const deleteRequest = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await Request.findByIdAndDelete(id);
+    res.status(200).json({ message: 'Request deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to delete request' });
+  }
+}
+
+export { getRequests, postRequest, getRequestLocations, deleteRequest }

@@ -1,9 +1,13 @@
 import { NextResponse } from 'next/server';
 
+if (!process.env.NEXT_PUBLIC_API_URL) {
+  throw new Error('NEXT_PUBLIC_API_URL is not defined');
+}
+
 export async function POST(request) {
   try {
     const body = await request.json();
-    const response = await fetch('http://localhost:9000/user/login', {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
