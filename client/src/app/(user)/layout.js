@@ -12,7 +12,7 @@ const  DashboardLayout= ({children}) => {
     <div className='h-screen w-screen overflow-hidden'>
       <SidebarProvider defaultOpen={false}>
           <AppSidebar />
-          <main className="">{children}</main>
+          <main className="z-10">{children}</main>
       </SidebarProvider>
     </div>
 
