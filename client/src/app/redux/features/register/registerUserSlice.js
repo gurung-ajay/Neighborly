@@ -18,14 +18,15 @@ export const registerUserSlice = createSlice({
   },
   reducers: {
     addFormData: (state, action) => {
-      state.name = action.payload.name;
-      state.phone = action.payload.phone;
-      state.gender = action.payload.gender;
-      state.dateOfBirth = action.payload.dateOfBirth;
-      state.introduction = action.payload.introduction;
-      state.profilePicture = action.payload.profilePicture;
-      state.email = action.payload.email;
-      state.password = action.payload.password;
+      const payload = action.payload;
+      if (payload.name) state.name = payload.name;
+      if (payload.phone) state.phone = payload.phone;
+      if (payload.gender) state.gender = payload.gender;
+      if (payload.dateOfBirth) state.dateOfBirth = payload.dateOfBirth;
+      if (payload.introduction) state.introduction = payload.introduction;
+      if (payload.profilePicture) state.profilePicture = payload.profilePicture;
+      if (payload.email) state.email = payload.email;
+      if (payload.password) state.password = payload.password;
       console.log(state);
     },
     addHomeAddress: (state, action) => {

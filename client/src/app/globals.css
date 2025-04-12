@@ -7,8 +7,16 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+
+  /* --- CHANGE THIS LINE --- */
+  /* Was: --font-sans: var(--font-geist-sans); */
+  /* Now uses the --font-nunito variable you added in RootLayout */
+  --font-sans: var(--font-nunito), var(--font-geist-sans), sans-serif; /* Added fallbacks */
+
+  /* Keep Geist Mono as the mono font */
+  --font-mono: var(--font-geist-mono), monospace; /* Added fallback */
+
+  /* ... rest of your color and theme variables ... */
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -45,9 +53,11 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 
+/* :root and .dark definitions remain the same */
 :root {
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
+  /* ... other light theme variables ... */
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
@@ -84,6 +94,7 @@
 .dark {
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
+  /* ... other dark theme variables ... */
   --card: oklch(0.145 0 0);
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.145 0 0);
@@ -116,11 +127,88 @@
   --sidebar-ring: oklch(0.439 0 0);
 }
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
   body {
     @apply bg-background text-foreground;
+    /* Apply the --font-sans variable defined in @theme inline */
+    font-family: var(--font-sans);
   }
+}
+
+/* You might also want to configure Tailwind to use these variables */
+/* In tailwind.config.js: */
+/*
+  theme: {
+    extend: {
+      fontFamily: {
+        sans: ['var(--font-nunito)', 'var(--font-geist-sans)', 'sans-serif'],
+        mono: ['var(--font-geist-mono)', 'monospace'],
+      },
+      // ... other theme extensions
+    }
+  }
+*/
+
+/* Custom styles for Neighborly Map Component */
+/* Leaflet popup styling */
+.leaflet-popup-content-wrapper {
+  border-radius: 12px;
+  padding: 0;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.leaflet-popup-content {
+  margin: 0;
+  width: auto !important;
+}
+
+.leaflet-popup-tip {
+  background-color: white;
+}
+
+.leaflet-container a.leaflet-popup-close-button {
+  color: white;
+  top: 8px;
+  right: 8px;
+  font-size: 18px;
+  z-index: 10;
+}
+
+/* Animation for map markers */
+.animate-pulse-slow {
+  animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+}
+
+/* Neighborly green colors for easy access */
+:root {
+  --neighborly-green-50: #f0fdf4;
+  --neighborly-green-100: #dcfce7;
+  --neighborly-green-200: #bbf7d0;
+  --neighborly-green-300: #86efac;
+  --neighborly-green-400: #4ade80;
+  --neighborly-green-500: #22c55e;
+  --neighborly-green-600: #16a34a;
+  --neighborly-green-700: #15803d;
+  --neighborly-green-800: #166534;
+  --neighborly-green-900: #14532d;
 }
