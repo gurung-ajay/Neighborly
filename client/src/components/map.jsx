@@ -84,7 +84,6 @@ const Map = () => {
   const esriWorldTopo = "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}";
   const cartoDBPositron = "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png";
   const cartoDBDarkMatter = "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png";
-
   // --- END: Different TileLayer URLs ---
 
   const currentTileUrl = stadiaOutdoors; // Choose your desired map style here

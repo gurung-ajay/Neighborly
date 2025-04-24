@@ -69,7 +69,7 @@ const RequestForm = ({ refetchRequests }) => {
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
         <Button
-          className="z-[999] absolute bottom-10 right-10 bg-green-500 hover:bg-green-600 text-white font-medium px-6 py-6 rounded-full shadow-lg transform hover:scale-105 transition-all border-2 border-white flex items-center gap-2"
+          className="z-[999] fixed bottom-10 right-20 bg-green-500 hover:bg-green-600 text-white font-medium px-6 py-6 rounded-full shadow-lg transform hover:scale-105 transition-all border-2 border-white flex items-center gap-2"
           onClick={() => setIsDialogOpen(true)}
         >
           <HelpCircle size={20} />
