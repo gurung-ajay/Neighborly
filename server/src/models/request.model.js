@@ -24,14 +24,15 @@ const RequestSchema = new mongoose.Schema({
     ref: 'User',
     required: true,
   },
-  acceptedBy: {
+  helpOfferAcceptedOf: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
   },
-  completed: {
-    type: Boolean,
-    default: false,
-  },
+  requestStatus: {
+    type: String,
+    enum: ['pending', 'helpOfferAccepted', 'completed'],
+    default: 'pending',
+  }
 }, {
   timestamps: true
 });

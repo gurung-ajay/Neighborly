@@ -1,6 +1,7 @@
 import express from 'express'
 import UserRoute from './routes/user.route.js'
 import RequestRoute from './routes/request.route.js'
+import HelpOfferRoute from './routes/helpOffer.route.js'
 import dbConnect from './db/connection.js'
 import cors from 'cors'
 import dotenv from 'dotenv'
@@ -17,6 +18,7 @@ app.use(cors()) // configured cors for frontend and backend connection without p
 
 app.use('/user', UserRoute)
 app.use('/request', RequestRoute)
+app.use('/helpOffer', HelpOfferRoute)
 
 app.listen(PORT, () => {
   dbConnect();
