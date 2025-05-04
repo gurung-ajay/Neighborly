@@ -40,8 +40,28 @@ const Map = () => {
     fetchRequests()
   }, [])
 
-  const { user } = useSelector((state) => state.user)
-  const [mapCentre, setMapCentre] = useState(Object.values(user?.data?.home_address))
+  const handleOfferHelp = async (id) => {
+    try {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/helpOffer`, {
+        offeredBy: user.data._id,
+        offeredForRequest: id,
+        status: 'pending'
+      })
+
+      if (response.status === 200) {
+        console.log("Help offer created successfully")
+        toast.success("Help offer created successfully")
+        fetchRequests()
+      }
+    } catch (error) {
+      console.error("Error creating help offer:", error)
+      toast.error("Failed to create help offer")
+    }
+  }
+
+
+const { user } = useSelector((state) => state.user)
+const [mapCentre, setMapCentre] = useState(Object.values(user?.data?.home_address))
 
   const customIcon = new window.L.Icon({
     iconUrl: "/map/avatar/people.png",
@@ -190,7 +210,8 @@ const Map = () => {
                           </div>
                         </div>
 
-                        <button className="mt-3 bg-green-500 hover:bg-green-600 text-white px-3 py-2 rounded-full text-sm flex items-center justify-center w-full transition-colors">
+                        <button className="mt-3 bg-green-500 hover:bg-green-600 text-white px-3 py-2 rounded-full text-sm flex items-center justify-center w-full transition-colors"
+                        onClick={() => handleOfferHelp(request._doc._id)}>
                           <CheckCircle size={16} className="mr-1" /> Offer Help
                         </button>
                       </div>
