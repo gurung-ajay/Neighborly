@@ -2,6 +2,9 @@
 
 A MERN stack application that connects neighbors for community service and support through a location-based request system.
 
+![スクリーンショット 2025-05-04 105932](https://github.com/user-attachments/assets/6a963ec7-1487-4fa2-bbf3-a89c82bbd05a)
+
+
 ## 🎯 Objective
 
 Neighborly aims to foster stronger community bonds by providing a platform where neighbors can:
@@ -59,7 +62,7 @@ Neighborly aims to foster stronger community bonds by providing a platform where
    ```
    PORT=9000
    MONGODB_URI=your_mongodb_connection_string
-   JWT_SECRET=your_secret_key
+   SECRET_KEY=your_secret_key
    ```
 
    **Important:**
